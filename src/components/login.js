@@ -73,7 +73,7 @@ class Login extends React.Component {
           this.props.history.replace ('/');
         })
         .catch (err => {
-          alert (err);
+          alert ('Identifiants incorrect, veillez réesayer.');
         });
     } catch (e) {
       alert ('Erreur: Veuillez remplir tous les champs');
