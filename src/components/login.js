@@ -23,17 +23,17 @@ class Login extends React.Component {
                 <div className="card">
                     <h1>Login</h1>
                     <form onSubmit={this.handleFormSubmit}>
-                        <input className="form-item" type="text" placeholder="Email goes here..." name="email" onChange={this.handleChange}/>
-                        <input className="form-item" type="password" placeholder="Password goes here..." name="password" onChange={this.handleChange}/>
-                        <input className="form-submit" type="submit" value="Submit" />
+                        <input className="form-item" type="text" placeholder="Email" name="email" onChange={this.handleChange}/>
+                        <input className="form-item" type="password" placeholder="Mot de Passe" name="password" onChange={this.handleChange}/>
+                        <input className="form-submit" type="submit" value="Se Connecter" />
                     </form>
                     <br/>
                     <form onSubmit={this.goToRegister}>
-                        <input className="form-submit" type="submit" value="Create Account"/>
+                        <input className="form-submit" type="submit" value="Créer Compte"/>
                     </form>
                     <br />
                     <form onSubmit={this.goToForgotPassword}>
-                        <input className="form-submit" type="submit" value="Forgot Password ?"/>
+                        <input className="form-submit" type="submit" value="Mot de Passe Oublié ?"/>
                     </form>
                 </div>
             </div>
@@ -55,7 +55,7 @@ class Login extends React.Component {
                 alert(err);
             })
         }catch (e) {
-            alert("Error: Please fill all the fields")
+            alert("Erreur: Veuillez remplir tous les champs")
         }
     }
     goToRegister() {

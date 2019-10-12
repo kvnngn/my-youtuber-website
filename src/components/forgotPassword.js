@@ -22,12 +22,12 @@ class Login extends React.Component {
                 <div className="card">
                     <h1>Forgot Password</h1>
                     <form onSubmit={this.handleFormSubmit}>
-                        <input className="form-item" type="text" placeholder="Email goes here..." name="email" onChange={this.handleChange}/>
-                        <input className="form-submit" type="submit" value="Submit"/>
+                        <input className="form-item" type="text" placeholder="Email" name="email" onChange={this.handleChange}/>
+                        <input className="form-submit" type="submit" value="Envoyer"/>
                     </form>
                     <br/>
                     <form onSubmit={this.goToLogin}>
-                        <input className="form-submit" type="submit" value="Return"/>
+                        <input className="form-submit" type="submit" value="Retour"/>
                     </form>
                 </div>
             </div>
@@ -50,7 +50,7 @@ class Login extends React.Component {
                 alert(err);
             })
         }catch (e) {
-            alert("Error: Please fill the field")
+            alert("Erreur: Veuillez remplir votre mail")
         }
     }
     goToLogin() {
