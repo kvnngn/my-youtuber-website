@@ -1,5 +1,5 @@
 import React from 'react'
-import './login.css'
+import './forgotPassword.css'
 import AuthService from "./AuthService";
 
 class Login extends React.Component {
@@ -7,8 +7,7 @@ class Login extends React.Component {
         super();
         this.handleChange = this.handleChange.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
-        this.goToRegister = this.goToRegister.bind(this);
-        this.goToForgotPassword = this.goToForgotPassword.bind(this);
+        this.goToLogin = this.goToLogin.bind(this);
         this.Auth = new AuthService();
     }
 
@@ -21,19 +20,14 @@ class Login extends React.Component {
         return(
             <div className="center">
                 <div className="card">
-                    <h1>Login</h1>
+                    <h1>Forgot Password</h1>
                     <form onSubmit={this.handleFormSubmit}>
                         <input className="form-item" type="text" placeholder="Email goes here..." name="email" onChange={this.handleChange}/>
-                        <input className="form-item" type="password" placeholder="Password goes here..." name="password" onChange={this.handleChange}/>
                         <input className="form-submit" type="submit" value="Submit"/>
                     </form>
                     <br/>
-                    <form onSubmit={this.goToRegister}>
-                        <input className="form-submit" type="submit" value="Create Account"/>
-                    </form>
-                    <br />
-                    <form onSubmit={this.goToForgotPassword}>
-                        <input className="form-submit" type="submit" value="Forgot Password ?"/>
+                    <form onSubmit={this.goToLogin}>
+                        <input className="form-submit" type="submit" value="Return"/>
                     </form>
                 </div>
             </div>
@@ -47,18 +41,16 @@ class Login extends React.Component {
     }
     handleFormSubmit(e) {
         e.preventDefault();
-        this.Auth.login(this.state.email, this.state.password)
+        this.Auth.forgotPassword(this.state.email)
             .then(res => {
                 this.props.history.replace('/');
+                alert("An email was send");
             }).catch(err =>{
                 alert(err);
             })
     }
-    goToRegister() {
-        this.props.history.replace('/register');
-    }
-    goToForgotPassword() {
-        this.props.history.replace('/forgotPassword');
+    goToLogin() {
+        this.props.history.replace('/login');
     }
 }
 

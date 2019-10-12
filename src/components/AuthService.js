@@ -7,6 +7,16 @@ export default class AuthService{
         this.login = this.login.bind(this);
         this.getProfile = this.getProfile.bind(this);
     }
+
+    forgotPassword(email) {
+        return this.fetch(`${this.domain}/user/auth/forgotPassword`, {
+            method: 'POST',
+            body: JSON.stringify({
+                email,
+            })
+        })
+    }
+
     register(nickname, email, firstname, lastname, password) {
         return this.fetch(`${this.domain}/user/auth/register`, {
             method: 'POST',
@@ -84,7 +94,7 @@ export default class AuthService{
             return response
         else {
             let error = new Error(response);
-            error.response = response;
+            error.response = response.error;
             throw error;
         }
     }

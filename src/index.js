@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 
 import Login from './components/login'
 import Register from './components/register'
+import forgotPassword from './components/forgotPassword'
 
 import {BrowserRouter as Router, Route} from "react-router-dom";
 
@@ -14,6 +15,7 @@ ReactDOM.render(<Router>
         <Route path="/" exact component={App}/>
         <Route path="/login" component={Login}/>
         <Route path="/register" component={Register}/>
+        <Route path="/forgotPassword" component={forgotPassword}/>
     </div>
 </Router>, document.getElementById('root'));
 
