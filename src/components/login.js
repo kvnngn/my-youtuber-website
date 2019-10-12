@@ -25,7 +25,7 @@ class Login extends React.Component {
                     <form onSubmit={this.handleFormSubmit}>
                         <input className="form-item" type="text" placeholder="Email goes here..." name="email" onChange={this.handleChange}/>
                         <input className="form-item" type="password" placeholder="Password goes here..." name="password" onChange={this.handleChange}/>
-                        <input className="form-submit" type="submit" value="Submit"/>
+                        <input className="form-submit" type="submit" value="Submit" />
                     </form>
                     <br/>
                     <form onSubmit={this.goToRegister}>
@@ -47,12 +47,16 @@ class Login extends React.Component {
     }
     handleFormSubmit(e) {
         e.preventDefault();
-        this.Auth.login(this.state.email, this.state.password)
-            .then(res => {
-                this.props.history.replace('/');
-            }).catch(err =>{
+        try {
+            this.Auth.login(this.state.email, this.state.password)
+                .then(res => {
+                    this.props.history.replace('/');
+                }).catch(err => {
                 alert(err);
             })
+        }catch (e) {
+            alert("Error: Please fill all the fields")
+        }
     }
     goToRegister() {
         this.props.history.replace('/register');

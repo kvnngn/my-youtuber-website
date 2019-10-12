@@ -45,13 +45,17 @@ class Register extends React.Component {
     }
     handleFormSubmit(e) {
         e.preventDefault();
-        this.Auth.register(this.state.nickname, this.state.email, this.state.firstname, this.state.lastname, this.state.password)
-            .then(res => {
-                this.props.history.replace('/login');
-                alert("Your account was created");
-            }).catch(err =>{
+        try {
+            this.Auth.register(this.state.nickname, this.state.email, this.state.firstname, this.state.lastname, this.state.password)
+                .then(res => {
+                    this.props.history.replace('/login');
+                    alert("Your account was created");
+                }).catch(err => {
                 alert(err);
             })
+        }catch (e) {
+            alert("Error: Please fill all the fields")
+        }
     }
     goToLogin() {
         this.props.history.replace('/login');

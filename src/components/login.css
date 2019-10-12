@@ -47,6 +47,18 @@
     transition: 0.3s opacity ease;
     cursor: pointer;
 }
+
+.form-submit:disabled{
+    font-family: 'Raleway', sans-serif;
+    height: 35px;
+    color: #fff;
+    background-color: gray;
+    border: none;
+    letter-spacing: 0.2rem;
+    transition: 0.3s opacity ease;
+    cursor: pointer;
+}
+
 .form-submit:hover{
     opacity: 0.6;
 }

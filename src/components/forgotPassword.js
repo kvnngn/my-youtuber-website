@@ -41,13 +41,17 @@ class Login extends React.Component {
     }
     handleFormSubmit(e) {
         e.preventDefault();
-        this.Auth.forgotPassword(this.state.email)
-            .then(res => {
-                this.props.history.replace('/');
-                alert("An email was send");
-            }).catch(err =>{
+        try {
+            this.Auth.forgotPassword(this.state.email)
+                .then(res => {
+                    this.props.history.replace('/');
+                    alert("An email was send");
+                }).catch(err => {
                 alert(err);
             })
+        }catch (e) {
+            alert("Error: Please fill the field")
+        }
     }
     goToLogin() {
         this.props.history.replace('/login');
