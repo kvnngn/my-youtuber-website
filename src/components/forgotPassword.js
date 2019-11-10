@@ -1,21 +1,63 @@
 import React from 'react';
 import './forgotPassword.css';
+import PropTypes from 'prop-types';
 import AuthService from './AuthService';
 
-class Login extends React.Component {
-  constructor () {
-    super ();
-    this.handleChange = this.handleChange.bind (this);
-    this.handleFormSubmit = this.handleFormSubmit.bind (this);
-    this.goToLogin = this.goToLogin.bind (this);
-    this.Auth = new AuthService ();
+class ForgotPassword extends React.Component {
+  constructor() {
+    super();
+    this.handleChange = this.handleChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.goToLogin = this.goToLogin.bind(this);
+    this.Auth = new AuthService();
   }
 
-  componentDidMount () {
-    if (this.Auth.loggedIn ()) this.props.history.replace ('/');
+  componentDidMount() {
+    const { history } = this.props;
+    if (this.Auth.loggedIn()) history.replace('/');
   }
 
-  render () {
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  handleFormSubmit(e) {
+    const { history } = this.props;
+    const { email } = this.state;
+    e.preventDefault();
+    try {
+      this.Auth
+        .forgotPassword(email)
+        .then(() => {
+          history.replace('/');
+          /* eslint-disable no-alert */
+          alert(
+            `Un email a été envoyé à ${
+              email
+            }avec un nouveau mot de passe`,
+          );
+          /* eslint-enable no-alert */
+        })
+        .catch((err) => {
+          /* eslint-disable no-alert */
+          alert(err);
+          /* eslint-enable no-alert */
+        });
+    } catch (err) {
+      /* eslint-disable no-alert */
+      alert('Erreur: Veuillez indiquer votre mail');
+      /* eslint-enable no-alert */
+    }
+  }
+
+  goToLogin() {
+    const { history } = this.props;
+    history.replace('/login');
+  }
+
+  render() {
     return (
       <div className="center">
         <div className="card">
@@ -43,35 +85,10 @@ class Login extends React.Component {
       </div>
     );
   }
-
-  handleChange (e) {
-    this.setState ({
-      [e.target.name]: e.target.value,
-    });
-  }
-  handleFormSubmit (e) {
-    e.preventDefault ();
-    try {
-      this.Auth
-        .forgotPassword (this.state.email)
-        .then (res => {
-          this.props.history.replace ('/');
-          alert (
-            'Un email a été envoyé à ' +
-              this.state.email +
-              'avec un nouveau mot de passe'
-          );
-        })
-        .catch (err => {
-          alert (err);
-        });
-    } catch (e) {
-      alert ('Erreur: Veuillez indiquer votre mail');
-    }
-  }
-  goToLogin () {
-    this.props.history.replace ('/login');
-  }
 }
 
-export default Login;
+ForgotPassword.propTypes = {
+  history: PropTypes.string.isRequired,
+};
+
+export default ForgotPassword;

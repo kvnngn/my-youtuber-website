@@ -1,22 +1,63 @@
 import React from 'react';
 import './login.css';
+import PropTypes from 'prop-types';
 import AuthService from './AuthService';
 
+
 class Login extends React.Component {
-  constructor () {
-    super ();
-    this.handleChange = this.handleChange.bind (this);
-    this.handleFormSubmit = this.handleFormSubmit.bind (this);
-    this.goToRegister = this.goToRegister.bind (this);
-    this.goToForgotPassword = this.goToForgotPassword.bind (this);
-    this.Auth = new AuthService ();
+  constructor() {
+    super();
+    this.handleChange = this.handleChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.goToRegister = this.goToRegister.bind(this);
+    this.goToForgotPassword = this.goToForgotPassword.bind(this);
+    this.Auth = new AuthService();
   }
 
-  componentDidMount () {
-    if (this.Auth.loggedIn ()) this.props.history.replace ('/');
+  componentDidMount() {
+    const { history } = this.props;
+    if (this.Auth.loggedIn()) history.replace('/');
   }
 
-  render () {
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  handleFormSubmit(e) {
+    const { history } = this.props;
+    const { email, password } = this.state;
+    e.preventDefault();
+    try {
+      this.Auth
+        .login(email, password)
+        .then(() => {
+          history.replace('/');
+        })
+        .catch(() => {
+          /* eslint-disable no-alert */
+          alert('Identifiants incorrect, veillez réesayer.');
+          /* eslint-enable no-alert */
+        });
+    } catch (err) {
+      /* eslint-disable no-alert */
+      alert('Erreur: Veuillez remplir tous les champs');
+      /* eslint-enable no-alert */
+    }
+  }
+
+  goToRegister() {
+    const { history } = this.props;
+    history.replace('/register');
+  }
+
+  goToForgotPassword() {
+    const { history } = this.props;
+    history.replace('/forgotPassword');
+  }
+
+  render() {
     return (
       <div className="center">
         <div className="card">
@@ -58,33 +99,10 @@ class Login extends React.Component {
       </div>
     );
   }
-
-  handleChange (e) {
-    this.setState ({
-      [e.target.name]: e.target.value,
-    });
-  }
-  handleFormSubmit (e) {
-    e.preventDefault ();
-    try {
-      this.Auth
-        .login (this.state.email, this.state.password)
-        .then (res => {
-          this.props.history.replace ('/');
-        })
-        .catch (err => {
-          alert ('Identifiants incorrect, veillez réesayer.');
-        });
-    } catch (e) {
-      alert ('Erreur: Veuillez remplir tous les champs');
-    }
-  }
-  goToRegister () {
-    this.props.history.replace ('/register');
-  }
-  goToForgotPassword () {
-    this.props.history.replace ('/forgotPassword');
-  }
 }
+
+Login.propTypes = {
+  history: PropTypes.string.isRequired,
+};
 
 export default Login;

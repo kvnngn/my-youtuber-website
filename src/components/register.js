@@ -1,25 +1,73 @@
 import React from 'react';
 import './register.css';
+import PropTypes from 'prop-types';
 import AuthService from './AuthService';
 
 class Register extends React.Component {
-  constructor () {
-    super ();
-    this.handleChange = this.handleChange.bind (this);
-    this.handleFormSubmit = this.handleFormSubmit.bind (this);
-    this.goToLogin = this.goToLogin.bind (this);
-    this.Auth = new AuthService ();
+  constructor() {
+    super();
+    this.handleChange = this.handleChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.goToLogin = this.goToLogin.bind(this);
+    this.Auth = new AuthService();
   }
 
-  componentDidMount () {
-    if (this.Auth.loggedIn ()) this.props.history.replace ('/');
+  componentDidMount() {
+    const { history } = this.props;
+    if (this.Auth.loggedIn()) history.replace('/');
   }
 
-  render () {
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  handleFormSubmit(e) {
+    const {
+      nickname, email, firstname, lastname, password,
+    } = this.state;
+    const { history } = this.props;
+    e.preventDefault();
+    try {
+      this.Auth
+        .register(
+          nickname,
+          email,
+          firstname,
+          lastname,
+          password,
+        )
+        .then(() => {
+          history.replace('/login');
+          /* eslint-disable no-alert */
+          alert(
+            'Votre compte a été crée. Vous pouvez désormais vous connecter.',
+          );
+          /* eslint-enable no-alert */
+        })
+        .catch((err) => {
+          /* eslint-disable no-alert */
+          alert(err);
+          /* eslint-enable no-alert */
+        });
+    } catch (err) {
+      /* eslint-disable no-alert */
+      alert('Erreur: Veuillez remplir tous les champs');
+      /* eslint-enable no-alert */
+    }
+  }
+
+  goToLogin() {
+    const { history } = this.props;
+    history.replace('/login');
+  }
+
+  render() {
     return (
       <div className="center">
         <div className="card">
-          <h1>S'inscrire</h1>
+          <h1>Inscription</h1>
           <form onSubmit={this.handleFormSubmit}>
             <input
               className="form-item"
@@ -66,39 +114,10 @@ class Register extends React.Component {
       </div>
     );
   }
-
-  handleChange (e) {
-    this.setState ({
-      [e.target.name]: e.target.value,
-    });
-  }
-  handleFormSubmit (e) {
-    e.preventDefault ();
-    try {
-      this.Auth
-        .register (
-          this.state.nickname,
-          this.state.email,
-          this.state.firstname,
-          this.state.lastname,
-          this.state.password
-        )
-        .then (res => {
-          this.props.history.replace ('/login');
-          alert (
-            'Votre compte a été crée. Vous pouvez désormais vous connecter.'
-          );
-        })
-        .catch (err => {
-          alert (err);
-        });
-    } catch (e) {
-      alert ('Erreur: Veuillez remplir tous les champs');
-    }
-  }
-  goToLogin () {
-    this.props.history.replace ('/login');
-  }
 }
+
+Register.propTypes = {
+  history: PropTypes.string.isRequired,
+};
 
 export default Register;
