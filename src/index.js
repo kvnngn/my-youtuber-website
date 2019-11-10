@@ -10,14 +10,15 @@ import Register from './components/register';
 import forgotPassword from './components/forgotPassword';
 
 
-ReactDOM.render(<Router>
+ReactDOM.render(
+<Router>
   <div>
     <Route path="/" exact component={App} />
     <Route path="/login" component={Login} />
     <Route path="/register" component={Register} />
     <Route path="/forgotPassword" component={forgotPassword} />
   </div>
-                </Router>, document.getElementById('root'));
+  </Router>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
